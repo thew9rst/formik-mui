@@ -6,12 +6,67 @@ import { makeStyles } from '@material-ui/core/styles'
 
 //const defaultTheme = createMuiTheme()
 export const useStyles = makeStyles(() => ({
+  mainBox: {
+    display: 'grid',
+    justifyContent: 'center',
+  },
+  typoBox: {
+    marginTop: 50,
+  },
+  typo: {
+    width: 550,
+    height: 39,
+    fontSize: '32px',
+    lineHeight: '37px',
+  },
+  buttonBox: {
+    display: 'flex',
+    marginTop: 75,
+  },
   button: {
     width: 270,
     height: 50,
-    padding: 50,
+    marginRight: 10,
+    textTransform: 'none',
+  },
+  button2: {
+    width: 270,
+    height: 50,
+    textTransform: 'none',
+  },
+  mainFormBox: {
+    display: 'flex',
+    justifyContent: 'center',
+  },
+  formBox: {
+    marginTop: 50,
+    width: 550,
+    height: 50,
+  },
+  mt: {
+    marginTop: 50,
+  },
+  errorTypo: {
+    fontSize: 12,
+    color: '#f44366',
+    paddingRight: 390,
+  },
+  lastButton: {
+    width: 270,
+    height: 50,
+    marginTop: 30,
+  },
+  form: {
+    display: 'flex',
+    flexDirection: 'column',
+  },
+  icon: {
+    fontSize: '1.5rem',
+    color: '#a4acc4',
+    marginRight: 10,
   },
 }))
+
 export const theme = createMuiTheme({
   buttons: {
     size: {

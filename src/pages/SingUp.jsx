@@ -14,12 +14,16 @@ import IconButton from '@material-ui/core/IconButton'
 import TextField from '@material-ui/core/TextField'
 import { useFormik } from 'formik'
 import * as Yup from 'yup'
-import { boolean } from 'yup/lib/locale'
+import { useStyles } from '../common/theme'
+import { faGoogle, faMicrosoft } from '@fortawesome/free-brands-svg-icons'
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
+
 function SingUp() {
   const [values, setValues] = useState({
     showPassword: false,
   })
   const classes = useTheme()
+  const styles = useStyles()
 
   const handleClickShowPassword = () => {
     setValues({ ...values, showPassword: !values.showPassword })
@@ -57,41 +61,40 @@ function SingUp() {
   })
   return (
     <>
-      <Box style={{ display: 'grid', justifyContent: 'center' }}>
-        <Box style={{ marginTop: 50 }}>
+      <Box className={styles.mainBox}>
+        <Box className={styles.typoBox}>
           <Typography
             tittle="Sign up to set your brand up for success"
             variant={classes.typography.variant.h4}
-            style={{
-              width: 550,
-              height: 39,
-              fontSize: '32px',
-              lineHeight: '37px',
-            }}
+            className={styles.typo}
           />
         </Box>
-        <Box style={{ display: 'flex', marginTop: 75 }}>
+        <Box className={styles.buttonBox}>
           <Button
             variant={classes.buttons.variant.contained}
             color={classes.buttons.colors.primary}
             title="Sign up with Google"
-            style={{
-              width: 270,
-              height: 50,
-              marginRight: 10,
-              textTransform: 'none',
-            }}
+            className={styles.button}
+            icono={<FontAwesomeIcon icon={faGoogle} className={styles.icon} />}
           />
           <Button
             variant={classes.buttons.variant.contained}
             title="Sign up with Microsoft"
-            style={{ width: 270, height: 50, textTransform: 'none' }}
+            className={styles.button2}
+            icono={
+              <FontAwesomeIcon icon={faMicrosoft} className={styles.icon} />
+            }
           />
         </Box>
       </Box>
-      <Box style={{ display: 'flex', justifyContent: 'center' }}>
-        <Box style={{ marginTop: 50, width: 550, height: 50 }}>
-          <form action="" onSubmit={formik.handleSubmit} method="POST">
+      <Box className={styles.mainFormBox}>
+        <Box className={styles.formBox}>
+          <form
+            action=""
+            onSubmit={formik.handleSubmit}
+            method="POST"
+            className={styles.form}
+          >
             <TextField
               id="outlined-basic"
               label="Full Name"
@@ -113,17 +116,11 @@ function SingUp() {
               value={formik.values.email}
               error={formik.touched.email && formik.errors.email ? true : false}
               helperText={formik.touched.email && formik.errors.email}
-              style={{ marginTop: 50 }}
+              className={styles.mt}
             />
-            <FormControl variant="outlined" style={{ marginTop: 50 }}>
+            <FormControl variant="outlined" className={styles.mt}>
               <InputLabel
                 htmlFor="outlined-adornment-password"
-                // style={{
-                //   color:
-                //     formik.errors.password && formik.touched.password
-                //       ? '#f44366'
-                //       : '#3f51b5',
-                // }}
                 error={formik.errors.password && formik.touched.password}
               >
                 Password
@@ -155,7 +152,7 @@ function SingUp() {
               />
               <Typography
                 tittle={formik.touched.password && formik.errors.password}
-                style={{ fontSize: 12, color: '#f44366', paddingRight: 390 }}
+                className={styles.errorTypo}
               />
             </FormControl>
 
@@ -163,8 +160,8 @@ function SingUp() {
               variant={classes.buttons.variant.contained}
               color={classes.buttons.colors.secondary}
               title="Sign Up"
-              style={{ width: 270, height: 50, marginTop: 30 }}
-              type="submit"
+              className={styles.lastButton}
+              // type="submit"
             />
           </form>
         </Box>
