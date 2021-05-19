@@ -12,19 +12,14 @@ import Visibility from '@material-ui/icons/Visibility'
 import VisibilityOff from '@material-ui/icons/VisibilityOff'
 import IconButton from '@material-ui/core/IconButton'
 import TextField from '@material-ui/core/TextField'
+import { useFormik } from 'formik'
+import * as Yup from 'yup'
+import { boolean } from 'yup/lib/locale'
 function SingUp() {
   const [values, setValues] = useState({
-    amount: '',
-    password: '',
-    weight: '',
-    weightRange: '',
     showPassword: false,
   })
   const classes = useTheme()
-
-  const handleChanged = (prop) => (event) => {
-    setValues({ ...values, [prop]: event.target.value })
-  }
 
   const handleClickShowPassword = () => {
     setValues({ ...values, showPassword: !values.showPassword })
@@ -33,6 +28,33 @@ function SingUp() {
   const handleMouseDownPassword = (event) => {
     event.preventDefault()
   }
+
+  //* ---------------------------------------
+
+  const validationSchema = Yup.object({
+    fullName: Yup.string().required('Full name is required'),
+    email: Yup.string()
+      .email('Enter a valid email')
+      .required('Email is required'),
+    password: Yup.string()
+      .min(8, 'Min length 8 characters')
+      .required('Password is required'),
+  })
+
+  const formik = useFormik({
+    initialValues: {
+      fullName: '',
+      email: '',
+      password: '',
+    },
+    onSubmit: (values, { resetForm, setSubmitting }) => {
+      setSubmitting(true)
+      console.log('--------------', values)
+      resetForm()
+      setSubmitting(false)
+    },
+    validationSchema: validationSchema,
+  })
   return (
     <>
       <Box style={{ display: 'grid', justifyContent: 'center' }}>
@@ -57,45 +79,66 @@ function SingUp() {
               width: 270,
               height: 50,
               marginRight: 10,
+              textTransform: 'none',
             }}
           />
           <Button
             variant={classes.buttons.variant.contained}
             title="Sign up with Microsoft"
-            style={{ width: 270, height: 50 }}
+            style={{ width: 270, height: 50, textTransform: 'none' }}
           />
         </Box>
       </Box>
       <Box style={{ display: 'flex', justifyContent: 'center' }}>
-        <Box>
-          <Box style={{ marginTop: 50, width: 550, height: 50 }}>
-            <form>
-              <TextField
-                id="outlined-basic"
-                label="Full Name"
-                variant="outlined"
-              />
-            </form>
-          </Box>
-          <Box style={{ marginTop: 50 }}>
-            <form>
-              <TextField
-                id="outlined-basic"
-                label="Email address"
-                variant="outlined"
-              />
-            </form>
-          </Box>
-          <form>
+        <Box style={{ marginTop: 50, width: 550, height: 50 }}>
+          <form action="" onSubmit={formik.handleSubmit} method="POST">
+            <TextField
+              id="outlined-basic"
+              label="Full Name"
+              name="fullName"
+              variant="outlined"
+              onChange={formik.handleChange}
+              value={formik.values.fullName}
+              error={
+                formik.touched.fullName && formik.errors.fullName ? true : false
+              }
+              helperText={formik.touched.fullName && formik.errors.fullName}
+            />
+            <TextField
+              id="outlined-basic"
+              label="Email address"
+              variant="outlined"
+              name="email"
+              onChange={formik.handleChange}
+              value={formik.values.email}
+              error={formik.touched.email && formik.errors.email ? true : false}
+              helperText={formik.touched.email && formik.errors.email}
+              style={{ marginTop: 50 }}
+            />
             <FormControl variant="outlined" style={{ marginTop: 50 }}>
-              <InputLabel htmlFor="outlined-adornment-password">
+              <InputLabel
+                htmlFor="outlined-adornment-password"
+                // style={{
+                //   color:
+                //     formik.errors.password && formik.touched.password
+                //       ? '#f44366'
+                //       : '#3f51b5',
+                // }}
+                error={formik.errors.password && formik.touched.password}
+              >
                 Password
               </InputLabel>
               <OutlinedInput
                 id="outlined-adornment-password"
                 type={values.showPassword ? 'text' : 'password'}
-                value={values.password}
-                onChange={handleChanged('password')}
+                name="password"
+                onChange={formik.handleChange}
+                value={formik.values.password}
+                error={
+                  formik.touched.password && formik.errors.password
+                    ? true
+                    : false
+                }
                 endAdornment={
                   <InputAdornment position="end">
                     <IconButton
@@ -110,17 +153,21 @@ function SingUp() {
                 }
                 labelWidth={70}
               />
+              <Typography
+                tittle={formik.touched.password && formik.errors.password}
+                style={{ fontSize: 12, color: '#f44366', paddingRight: 390 }}
+              />
             </FormControl>
+
+            <Button
+              variant={classes.buttons.variant.contained}
+              color={classes.buttons.colors.secondary}
+              title="Sign Up"
+              style={{ width: 270, height: 50, marginTop: 30 }}
+              type="submit"
+            />
           </form>
         </Box>
-      </Box>
-      <Box style={{ display: 'flex', justifyContent: 'center' }}>
-        <Button
-          variant={classes.buttons.variant.contained}
-          color={classes.buttons.colors.secondary}
-          title="Sign Up"
-          style={{ width: 270, height: 50, marginTop: 30 }}
-        />
       </Box>
     </>
   )
