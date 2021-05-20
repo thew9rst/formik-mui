@@ -1,8 +1,9 @@
-import React from 'react'
+import React, { useState } from 'react'
 import { Button as ButtonBase } from '@material-ui/core'
 
 function Button(props) {
-  const { variant, color, size, title, style, className, icono } = props
+  const { variant, color, size, title, style, className, icono, disabled } =
+    props
   return (
     <ButtonBase
       className={className}
@@ -11,6 +12,7 @@ function Button(props) {
       size={size}
       style={style}
       type="submit"
+      disabled={disabled}
     >
       {icono} {title}
     </ButtonBase>

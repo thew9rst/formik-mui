@@ -19,6 +19,7 @@ import { faGoogle, faMicrosoft } from '@fortawesome/free-brands-svg-icons'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 
 function SingUp() {
+  const [disab, setDisab] = useState(false)
   const [values, setValues] = useState({
     showPassword: false,
   })
@@ -51,9 +52,10 @@ function SingUp() {
       email: '',
       password: '',
     },
-    onSubmit: (values, { resetForm, setSubmitting }) => {
+    onSubmit: (values, { resetForm, setSubmitting, isSubmitting }) => {
       setSubmitting(true)
-      console.log('--------------', values)
+      alert(JSON.stringify(values))
+      setDisab(isSubmitting)
       resetForm()
       setSubmitting(false)
     },
@@ -161,6 +163,7 @@ function SingUp() {
               color={classes.buttons.colors.secondary}
               title="Sign Up"
               className={styles.lastButton}
+              disabled={disab ? true : false}
               // type="submit"
             />
           </form>
